@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infotech Service Center</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f7f9; margin: 0; padding: 20px; text-align: center; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h1 { color: #1a4a72; margin-bottom: 5px; font-size: 24px; }
+        p { color: #666; font-size: 14px; }
+        .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0; }
+        .service-card { border: 2px solid #e0e0e0; padding: 15px; border-radius: 10px; cursor: pointer; transition: 0.3s; font-weight: bold; font-size: 14px; }
+        .service-card:hover { border-color: #1a4a72; background: #f0f8ff; }
+        .service-card.active { border-color: #1a4a72; background: #1a4a72; color: white; }
+        input, select, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; font-size: 16px; }
+        button { background-color: #25D366; color: white; border: none; padding: 15px; width: 100%; border-radius: 5px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        button:hover { background-color: #128C7E; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>INFOTECH SERVICE CENTER</h1>
+    <p>All Digital Work Done Here!</p>
+    <hr>
+
+    <h3>Select a Service:</h3>
+    <div class="services-grid">
+        <div class="service-card" onclick="selectService('EPFO Services', this)">EPFO Services</div>
+        <div class="service-card" onclick="selectService('New PAN Card', this)">New PAN Card</div>
+        <div class="service-card" onclick="selectService('Aadhaar Update', this)">Aadhaar Update</div>
+        <div class="service-card" onclick="selectService('Voter ID Work', this)">Voter ID Work</div>
+    </div>
+
+    <form id="requestForm">
+        <input type="hidden" id="selectedService" required>
+        <input type="text" id="Name" placeholder="Your Full Name" required>
+        <input type="tel" id="Phone_no." placeholder="Your Phone Number" required>
+        
+        <label style="display:block; text-align:left; font-size:12px; margin-top:10px;">Send to Number:</label>
+        <select id="targetWhatsApp">
+            <option value="918591986646">8591986646 (Primary)</option>
+            <option value="918425844942">8425844942 (Secondary)</option>
+        </select>
+
+        <textarea id="details" placeholder="Briefly describe your requirement..." rows="3"></textarea>
+        
+        <button type="button" onclick="sendToWhatsApp()">Submit Request to WhatsApp</button>
+    </form>
+</div>
+
+<script>
+    function selectService(service, element) {
+        document.getElementById('selectedService').value = service;
+        let cards = document.querySelectorAll('.service-card');
+        cards.forEach(card => card.classList.remove('active'));
+        element.classList.add('active');
+    }
+
+    function sendToWhatsApp() {
+        const phone = document.getElementById('targetWhatsApp').value;
+        const service = document.getElementById('selectedService').value;
+        const name = document.getElementById('userName').value;
+        const userPhone = document.getElementById('userPhone').value;
+        const details = document.getElementById('details').value;
+
+        if (!service || !name || !userPhone) {
+            alert("Please fill in all fields and select a service.");
+            return;
+        }
+
+        // The [FROM WEBSITE] tag helps you track where the lead came from
+        const message = `* [FROM WEBSITE] *%0A%0A` +
+                        `*Service:* ${service}%0A` +
+                        `*Customer:* ${name}%0A` +
+                        `*Contact:* ${userPhone}%0A` +
+                        `*Details:* ${details}`;
+
+        window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
+    }
+</script>
+
+</body>
+</html>
